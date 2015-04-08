@@ -5,7 +5,13 @@ rm(list=ls())
 # install.packages("igraph")
 library(igraph) 
 
+# Ici on définit l'espace de travail. MODIFIER-LE pour que cela corresponde 
+# à l'emplacement sur votre propre ordinateur
 setwd("~/Documents/Belfort/Exemple")
+
+#################
+### LE RÉSEAU ###
+#################
 
 # On importe le csv sous forme de matrice d'incidence
 mat <- read.table("assomoir-adj.csv", header = TRUE, check.names = FALSE, sep=",")
@@ -48,8 +54,10 @@ V(g0)$type <- bipartite.mapping(g0)$type
 g <- bipartite.projection(g0)$proj1
 
 # Et voilà le produit final !
+# À noter que le choix d'un seuil égal à 3 peut être modifié
+# Un nombre (entier) plus bas permettra d'inclure plus d'arêtes
+# Un nombre (entier) plus grand permettra d'inclure moins d'arêtes
 g <- g - E(g)[E(g)$weight < 3]
-
 
 ############
 ### PLOT ###
