@@ -1,0 +1,82 @@
+# fichier = "exemple/assomoir-adj.csv"
+# seuil = 3
+# connexe = TRUE
+
+create_graph <- function(fichier = "exemple/assomoir-adj.csv", seuil = 3, connexe = TRUE) {
+
+#################
+### LE RÉSEAU ###
+#################
+
+# On importe le csv sous forme de matrice d'incidence
+mat <- read.table(fichier, header = TRUE, check.names = FALSE, sep=",")
+
+# On donne comme noms de ligne les noms de la première colonne
+rownames(mat) <- mat[,1]
+
+# Puis on la supprime
+mat <- mat[,-1]
+# Maintenant la matrice n'est plus composée que de 0 et de 1
+
+# On crée un graphe biparti à partir de cette matrice d'incidence
+g0 <- graph.incidence(mat, multiple = TRUE)
+
+# On extrait la liste des arêtes, et on la copie deux fois
+tab <- get.edgelist(g0)
+tab2 <- tab1 <- tab
+
+# Ici, chaque page n se transforme en couple de pages (n-1, n)
+tab1[,2] <- paste(sprintf("%03i", as.numeric(tab[,2])-1), sprintf("%03s", tab[,2]), sep="")
+
+# Ici, chaque page n se transforme en couple de pages (n, n+1)
+tab2[,2] <- paste(sprintf("%03s", tab[,2]), sprintf("%03i", as.numeric(tab[,2])+1), sep="")
+
+# On réunit ces deux listes d'arêtes
+tab0 <- rbind(tab1, tab2)
+
+# On supprime les doublons créés par un nom sur des pages consécutives
+tab0 <- tab0[!duplicated(tab0),]
+
+# On crée le graphe, qui est déjà biparti
+g0 <- graph.edgelist(tab0, directed = FALSE)
+
+# Ceci est nécessaire pour pouvoir faire la projection et 
+# obtenir le réseau de personnages (deux persos sont connectés 
+# s'ils apparaissent sur les mêmes couples de pages)
+V(g0)$type <- bipartite.mapping(g0)$type
+
+# Voilà la projection…
+g <- bipartite.projection(g0)$proj1
+
+# On simule (pour l'instant) un attribut en facteur pour chaque personnage, par exemple "homme", "femme", "groupe"
+# TODO Je dois encore implémenter cette partie. Ce devra correspondre à Sciences, Techniques, Politique, etc.
+# Et l'étudiant introduira un fichier avec les attributs
+# À noter que les sommets apparaissent dans le même ordre que dans la matrice
+identif <- factor(sample(c("S", "T", "P"), size = nrow(mat), replace = TRUE))
+V(g)$identif <- identif
+
+# Et voilà le produit final !
+# À noter que le choix d'un seuil égal à 3 peut être modifié
+# Un nombre (entier) plus bas permettra d'inclure plus d'arêtes
+# Un nombre (entier) plus grand permettra d'inclure moins d'arêtes
+g <- g - E(g)[weight < seuil]
+
+# Si giant est égal à TRUE, nous ne conservons que la composante géante
+if (connexe == TRUE) {g <- induced.subgraph(g, vids = which(clusters(g)$membership == which.max(clusters(g)$csize)))}
+
+return(g)
+}
+
+
+#############
+### DEBUG ###
+#############
+
+# g0 <- graph.edgelist(rbind(cbind(letters[sample(10, 20, TRUE)], sample(10, 20, TRUE)), cbind(LETTERS[sample(8, 20, TRUE)], sample(8, 20, TRUE)+20)), directed = FALSE)
+# g0 <- simplify(g0)
+# V(g0)$type <- bipartite.mapping(g0)$type
+# write.csv(get.incidence(g0), file = "debug/debug.csv")
+
+# fichier <- "debug/debug.csv"
+
+# create_graph(fichier = "debug/debug.csv", seuil = 2, connexe = FALSE)
