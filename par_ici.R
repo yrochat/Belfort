@@ -36,7 +36,7 @@ par(mar=c(0,0,0,0))
 # Pour plus de renseignements, taper dans la console la commande suivant :
 # ?igraph.plotting
 
-		vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")
+if (filchier = "exemple/assomoir-adj.csv") {vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")}
 		vertex.size <- log2(degree(g))-1
 		vertex.color <- "black"
 #		vertex.color <- rainbow(length(unique(identif)))[V(g)$identif]
