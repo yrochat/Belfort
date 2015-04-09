@@ -42,7 +42,7 @@ if (max(sapply(V(g)$name,nchar)) > 15) {vertex.label <- paste(substr(V(g)$name, 
 		vertex.size <- log2(degree(g))-1
 		vertex.color <- brewer.pal(length(unique((V(g)$identif))), "Set1")[factor(V(g)$identif)]
 		vertex.label.color <- "black"
-		vertex.label.dist <- (log2(degree(g))-.2)/20
+		vertex.label.dist <- (log2(degree(g))+.4)/25
 		vertex.label.family <- "sans"
 		edge.width <- log2(E(g)$weight) / 10
 		edge.color <- "darkgrey"
