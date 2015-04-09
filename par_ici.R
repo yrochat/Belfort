@@ -35,17 +35,28 @@ par(mar=c(0,0,0,0))
 # Là on dessine le graphe, avec plein d'ajustements…
 # Pour plus de renseignements, taper dans la console la commande suivant :
 # ?igraph.plotting
+
+		vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")
+		vertex.size <- log2(degree(g))-1
+		vertex.color <- "black"
+#		vertex.color <- rainbow(length(unique(identif)))[V(g)$identif]
+		vertex.label.color <- "black"
+		vertex.label.dist <- (log2(degree(g))-.2)/20
+		vertex.label.family <- "sans"
+		edge.width <- log2(E(g)$weight) / 10
+		edge.color <- "darkgrey"
+		layout <- layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5)
+
 plot(g,
-		vertex.label = paste(substr(V(g)$name, 1, 6), ".", sep=""),
-		vertex.size = log2(degree(g))-1,
-		vertex.color = "black",
-#		vertex.color = rainbow(length(unique(identif)))[V(g)$identif],
-		vertex.label.color = "black",
-		vertex.label.dist = (log2(degree(g))-.2)/20,
-		vertex.label.family = "sans", 
-		edge.width = log2(E(g)$weight) / 10,
-		edge.color = "darkgrey",
-		layout = layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5)
+		vertex.label = vertex.label,
+		vertex.size = vertex.size,
+		vertex.color = vertex.color,
+		vertex.label.color = vertex.label.color,
+		vertex.label.dist = vertex.label.dist,
+		vertex.label.family = vertex.label.family, 
+		edge.width = edge.width,
+		edge.color = edge.color,
+		layout = layout
 	)
 	
 # legend("topright", legend = levels(identif), pch = 21, col = "black", pt.bg = rainbow(length(unique(identif))), cex = 3)
