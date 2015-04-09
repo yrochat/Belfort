@@ -8,6 +8,7 @@ setwd("~/Documents/Belfort")
 # si ça ne fonctionne pas, il faut d'abord le télécharger. Pour ça :
 # install.packages("igraph")
 library(igraph) 
+library(RColorBrewer)
 
 source("sources/create_graph.R")
 
@@ -15,7 +16,7 @@ source("sources/create_graph.R")
 ### LA CREATION DU RESEAU ###
 #############################
 
-g <- create_graph(fichier = "exemple/assomoir-adj.csv", seuil = 3, connexe = TRUE)
+g <- create_graph(fichier = "exemple/assomoir-adj.csv", attr = "exemple/assomoir-attr.csv", seuil = 3, connexe = TRUE)
 
 ############
 ### PLOT ###
@@ -36,10 +37,10 @@ par(mar=c(0,0,0,0))
 # Pour plus de renseignements, taper dans la console la commande suivant :
 # ?igraph.plotting
 
-if (fichier = "exemple/assomoir-adj.csv") {vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")}
+		vertex.label <- V(g)$name
+if (max(sapply(V(g)$name,nchar)) > 15) {vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")}
 		vertex.size <- log2(degree(g))-1
-		vertex.color <- "black"
-#		vertex.color <- rainbow(length(unique(identif)))[V(g)$identif]
+		vertex.color <- brewer.pal(length(unique((V(g)$identif))), "Set1")[factor(V(g)$identif)]
 		vertex.label.color <- "black"
 		vertex.label.dist <- (log2(degree(g))-.2)/20
 		vertex.label.family <- "sans"
@@ -59,7 +60,7 @@ plot(g,
 		layout = layout
 	)
 	
-# legend("topright", legend = levels(identif), pch = 21, col = "black", pt.bg = rainbow(length(unique(identif))), cex = 3)
+legend("topright", legend = levels(factor(V(g)$identif)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$identif))), "Set1"), cex = 3)
 
 # Et on ferme le tunnel
 dev.off()

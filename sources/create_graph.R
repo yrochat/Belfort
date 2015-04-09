@@ -1,15 +1,16 @@
 # fichier = "exemple/assomoir-adj.csv"
+# attr = "exemple/assomoir-attr.csv"
 # seuil = 3
 # connexe = TRUE
 
-create_graph <- function(fichier = "exemple/assomoir-adj.csv", seuil = 3, connexe = TRUE) {
+create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr = "exemple/assomoir-attr.csv", seuil = 3, connexe = TRUE) {
 
 #################
 ### LE RÉSEAU ###
 #################
 
 # On importe le csv sous forme de matrice d'incidence
-mat <- read.table(fichier, header = TRUE, check.names = FALSE, sep=",")
+mat <- read.csv(fichier, header = TRUE, check.names = FALSE, sep=",")
 
 # On donne comme noms de ligne les noms de la première colonne
 rownames(mat) <- mat[,1]
@@ -52,8 +53,8 @@ g <- bipartite.projection(g0)$proj1
 # TODO Je dois encore implémenter cette partie. Ce devra correspondre à Sciences, Techniques, Politique, etc.
 # Et l'étudiant introduira un fichier avec les attributs
 # À noter que les sommets apparaissent dans le même ordre que dans la matrice
-identif <- factor(sample(c("S", "T", "P"), size = nrow(mat), replace = TRUE))
-V(g)$identif <- identif
+identif <- read.csv(attr, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+V(g)$identif <- identif[,2][match(V(g)$name, identif[,1])]
 
 # Et voilà le produit final !
 # À noter que le choix d'un seuil égal à 3 peut être modifié
