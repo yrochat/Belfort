@@ -16,17 +16,15 @@ source("sources/create_graph.R")
 ### LA CREATION DU RESEAU ###
 #############################
 
-g <- create_graph(fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", seuil = 3, connexe = TRUE)
+g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
+					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
+					seuil = 3, 
+					connexe = TRUE)
 
-#################
-### ATTRIBUTS ###
-#################
-
-# Et l'étudiant introduira un fichier avec les attributs
-# À noter que les sommets apparaissent dans le même ordre que dans la matrice
-identif <- read.csv("reprojetrseauxdepersonnages/Bradbury2-attr.csv", header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
-V(g)$identif <- identif[,2][match(V(g)$name, identif[,1])]
-
+g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
+					seuil = 3, 
+					connexe = TRUE)
 
 ############
 ### PLOT ###
@@ -50,11 +48,12 @@ par(mar=c(0,0,0,0))
 		vertex.label <- V(g)$name
 if (max(sapply(V(g)$name,nchar)) > 15) {vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")}
 		vertex.size <- log2(degree(g))-1
-		vertex.color <- brewer.pal(length(unique((V(g)$identif))), "Set1")[factor(V(g)$identif)]
+		vertex.color <- "firebrick2"
+		vertex.color <- brewer.pal(length(unique((V(g)$id1))), "Set1")[factor(V(g)$id1)]
 		vertex.label.color <- "black"
-		vertex.label.dist <- (log2(degree(g))+.4)/25
+		vertex.label.dist <- (log2(degree(g)+1)+.4)/25
 		vertex.label.family <- "sans"
-		edge.width <- log2(E(g)$weight) / 10
+		edge.width <- ((E(g)$weight)-1)/2
 		edge.color <- "darkgrey"
 
 plot(g,
@@ -68,7 +67,7 @@ plot(g,
 		edge.color = edge.color
 	)
 
-legend("bottomleft", legend = levels(factor(V(g)$identif)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$identif))), "Set1"), cex = 3)
+legend("bottomleft", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3)
 
 # Et on ferme le tunnel
 dev.off()
