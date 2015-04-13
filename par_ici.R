@@ -16,7 +16,17 @@ source("sources/create_graph.R")
 ### LA CREATION DU RESEAU ###
 #############################
 
-g <- create_graph(fichier = "exemple/assomoir-adj.csv", attr = "exemple/assomoir-attr.csv", seuil = 3, connexe = TRUE)
+g <- create_graph(fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", seuil = 3, connexe = TRUE)
+
+#################
+### ATTRIBUTS ###
+#################
+
+# Et l'étudiant introduira un fichier avec les attributs
+# À noter que les sommets apparaissent dans le même ordre que dans la matrice
+identif <- read.csv("reprojetrseauxdepersonnages/Bradbury2-attr.csv", header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+V(g)$identif <- identif[,2][match(V(g)$name, identif[,1])]
+
 
 ############
 ### PLOT ###
@@ -46,7 +56,6 @@ if (max(sapply(V(g)$name,nchar)) > 15) {vertex.label <- paste(substr(V(g)$name, 
 		vertex.label.family <- "sans"
 		edge.width <- log2(E(g)$weight) / 10
 		edge.color <- "darkgrey"
-		layout <- layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5)
 
 plot(g,
 		vertex.label = vertex.label,
@@ -56,11 +65,10 @@ plot(g,
 		vertex.label.dist = vertex.label.dist,
 		vertex.label.family = vertex.label.family, 
 		edge.width = edge.width,
-		edge.color = edge.color,
-		layout = layout
+		edge.color = edge.color
 	)
-	
-legend("topright", legend = levels(factor(V(g)$identif)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$identif))), "Set1"), cex = 3)
+
+legend("bottomleft", legend = levels(factor(V(g)$identif)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$identif))), "Set1"), cex = 3)
 
 # Et on ferme le tunnel
 dev.off()
