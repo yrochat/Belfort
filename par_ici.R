@@ -22,9 +22,9 @@ g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 					seuil = 3, 
 					connexe = TRUE)
 
-g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
-					seuil = 3, 
-					connexe = TRUE)
+# g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
+#					seuil = 3, 
+#					connexe = TRUE)
 
 ############
 ### PLOT ###
@@ -49,7 +49,7 @@ par(mar=c(0,0,0,0))
 if (max(sapply(V(g)$name,nchar)) > 15) {vertex.label <- paste(substr(V(g)$name, 1, 6), ".", sep="")}
 		vertex.size <- log2(degree(g))-1
 		vertex.color <- "firebrick2"
-		vertex.color <- brewer.pal(length(unique((V(g)$id1))), "Set1")[factor(V(g)$id1)]
+if (!is.null(V(g)$id1))	{vertex.color <- brewer.pal(length(unique((V(g)$id1))), "Set1")[factor(V(g)$id1)]}
 		vertex.label.color <- "black"
 		vertex.label.dist <- (log2(degree(g)+1)+.4)/25
 		vertex.label.family <- "sans"
@@ -67,7 +67,7 @@ plot(g,
 		edge.color = edge.color
 	)
 
-legend("bottomleft", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3)
+if (!is.null(V(g)$id1)) {legend("bottomleft", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3)}
 
 # Et on ferme le tunnel
 dev.off()
