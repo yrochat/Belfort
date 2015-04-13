@@ -49,13 +49,6 @@ V(g0)$type <- bipartite.mapping(g0)$type
 # Voilà la projection…
 g <- bipartite.projection(g0)$proj1
 
-# On simule (pour l'instant) un attribut en facteur pour chaque personnage, par exemple "homme", "femme", "groupe"
-# TODO Je dois encore implémenter cette partie. Ce devra correspondre à Sciences, Techniques, Politique, etc.
-# Et l'étudiant introduira un fichier avec les attributs
-# À noter que les sommets apparaissent dans le même ordre que dans la matrice
-identif <- read.csv(attr, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
-V(g)$identif <- identif[,2][match(V(g)$name, identif[,1])]
-
 # Et voilà le produit final !
 # À noter que le choix d'un seuil égal à 3 peut être modifié
 # Un nombre (entier) plus bas permettra d'inclure plus d'arêtes
@@ -64,6 +57,9 @@ g <- g - E(g)[weight < seuil]
 
 # Si giant est égal à TRUE, nous ne conservons que la composante géante
 if (connexe == TRUE) {g <- induced.subgraph(g, vids = which(clusters(g)$membership == which.max(clusters(g)$csize)))}
+
+# On fixe un layout
+g$layout <- layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5)
 
 return(g)
 }
