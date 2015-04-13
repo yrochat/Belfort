@@ -1,10 +1,17 @@
-# fichier = "exemple/assomoir-adj.csv"
-# attr = "exemple/assomoir-attr.csv"
+# fichier = "reprojetrseauxdepersonnages/Bradbury2.csv"
+# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv"
+# attr1 = ""
+# attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv"
+# attr2 = ""
 # seuil = 3
 # connexe = TRUE
 
-create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr = "exemple/assomoir-attr.csv", seuil = 3, connexe = TRUE) {
+# create_graph <- function(	fichier = "exemple/assomoir-adj.csv", 
+#							attr1 = "exemple/assomoir-attr.csv",
+#							attr2 = "exemple/assomoir-attr2.csv", seuil = 3, connexe = TRUE) {
 
+create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr1 = "", attr2 = "", seuil = 3, connexe = TRUE) {
+	
 #################
 ### LE RÉSEAU ###
 #################
@@ -45,6 +52,18 @@ g0 <- graph.edgelist(tab0, directed = FALSE)
 # obtenir le réseau de personnages (deux persos sont connectés 
 # s'ils apparaissent sur les mêmes couples de pages)
 V(g0)$type <- bipartite.mapping(g0)$type
+
+# Et l'étudiant introduira un fichier avec les attributs
+# À noter que les sommets apparaissent dans le même ordre que dans la matrice
+if (nchar(attr1) > 0) {
+	id1 <- read.csv(file = attr1, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+	V(g0)$id1 <- id1[,2][match(V(g0)$name, id1[,1])]
+	}
+
+if (nchar(attr2) > 0) {
+	id2 <- read.csv(file = attr2, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+	V(g0)$id2 <- id2[,2][match(V(g0)$name, id2[,1])]
+	}
 
 # Voilà la projection…
 g <- bipartite.projection(g0)$proj1
