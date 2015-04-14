@@ -68,6 +68,9 @@ if (nchar(attr2) > 0) {
 # Voilà la projection…
 g <- bipartite.projection(g0)$proj1
 
+g$attr1 <- colnames(id1)[2]
+g$attr2 <- colnames(id2)[2]
+
 # Et voilà le produit final !
 # À noter que le choix d'un seuil égal à 3 peut être modifié
 # Un nombre (entier) plus bas permettra d'inclure plus d'arêtes
