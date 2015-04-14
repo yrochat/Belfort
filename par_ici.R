@@ -11,15 +11,14 @@ library(igraph)
 library(RColorBrewer)
 
 source("sources/create_graph.R")
-source("sources/shapes.R")
 
 #############################
 ### LA CREATION DU RESEAU ###
 #############################
 
 g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
-					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv",
-					attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv", 
+					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
 					seuil = 3, 
 					connexe = TRUE)
 
@@ -35,10 +34,12 @@ g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 # On lui donne les dimensions qu'on veut
 # Cela crée une sorte de tunnel qui enregistrera tous nos ajouts
 # Et qu'on ferme à la fin avec la fonction dev.off()
-pdf("output.pdf", height = 15, width = 15)
+pdf("output.pdf", height = 16, width = 14)
+
+layout(matrix(1:3, nrow = 3), widths = c(1,1,1), heights = c(10,1,1))
 
 # À ce stade et pour mémoire, le tunnel est ouvert
-# Ce qu'on fait ici est de dire qu'il n'y a aucune marge 
+# Ce qu'on fait ici est de dire qu'il n'y a aucune marge sauf à droite
 # et que le graphe doit prendre toute la place
 par(mar=c(0,0,0,0))
 
@@ -46,37 +47,74 @@ par(mar=c(0,0,0,0))
 # Pour plus de renseignements, taper dans la console la commande suivant :
 # ?igraph.plotting
 
-		vertex.label <- V(g)$name
-if (max(sapply(V(g)$name,nchar)) > 20) {vertex.label <- paste(substr(V(g)$name, 1, 20), ".", sep="")}
-		vertex.size <- log2(degree(g)+1)*2
-		vertex.color <- "firebrick2"
-if (!is.null(V(g)$id1))	{	vertex.color <- brewer.pal(length(unique((V(g)$id1))), "Set1")[factor(V(g)$id1)]}
-		vertex.shape <- "circle"
-		vertex.norays <- 4
-if (!is.null(V(g)$id2)) {	vertex.shape <- "star"
-							vertex.norays <- (4:(length(unique((V(g)$id2)))+4-1))[factor(V(g)$id2)]}
-		vertex.label.color <- "black"
-		vertex.label.dist <- (log2(degree(g)+1)+.4)/15
-		vertex.label.family <- "sans"
-		edge.width <- ((E(g)$weight)-1)/2
-		edge.color <- "darkgrey"
+# On enregistre les noms
+vertex.label <- V(g)$name
 
+# Si un des noms est trop long, on les réduit tous à 20 caractères, suivis d'un point
+if (max(sapply(V(g)$name,nchar)) > 20) {vertex.label <- paste(substr(V(g)$name, 1, 20), ".", sep="")}
+
+# La taille des sommets
+vertex.size <- log2(degree(g)+1)*2
+
+# Une couleur par défaut
+vertex.color <- "firebrick2"
+
+# S'il existe un premier attribut (attr1), on distribue des couleurs aux sommets
+if (!is.null(V(g)$id1))	{vertex.color <- brewer.pal(length(unique((V(g)$id1))), "Set1")[factor(V(g)$id1)]}
+
+# Une forme par défaut
+vertex.shape <- "circle"
+
+# S'il existe un second attribut (attr2), on distribue des formes aux sommets
+if (!is.null(V(g)$id2)) {vertex.shape <- c("circle", "square", "triangle")[factor(V(g)$id2)]}
+
+# La couleur du texte
+vertex.label.color <- "black"
+
+# La distance des labels dépend des tailles
+vertex.label.dist <- (log2(degree(g)+5))/15
+
+# L'angle où s'affiche le label
+vertex.label.degree <- -pi/2
+
+# Le choix de la police
+vertex.label.family <- "mono"
+
+# La taille de la police
+vertex.label.cex <- 2
+
+# La largeur des arêtes (pas fixe)
+edge.width <- ((E(g)$weight))/2
+
+# La couleur des arêtes
+edge.color <- "darkgrey"
+
+# Et ici on dessine le graphe ! L'instance appelle les paramètres sauvés ci-dessus.
 plot(g,
 		vertex.label = vertex.label,
 		vertex.size = vertex.size,
 		vertex.color = vertex.color,
 		vertex.shape = vertex.shape,
-		vertex.norays = vertex.norays,
 		vertex.label.color = vertex.label.color,
 		vertex.label.dist = vertex.label.dist,
+		vertex.label.degree = vertex.label.degree,
 		vertex.label.family = vertex.label.family, 
+		vertex.label.cex = vertex.label.cex,
 		edge.width = edge.width,
 		edge.color = edge.color
 	)
 
-if (!is.null(V(g)$id1)) {legend("bottomleft", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3, title = g$attr1)}
+plot.new()
+par(mar=c(0,0,0,0))
 
-if (!is.null(V(g)$id2)) {legend("topright", legend = levels(factor(V(g)$id2)), pch = 21, col = "black", cex = 3, title = g$attr2)}
+# la légende pour le premier attribut (la couleur)
+if (!is.null(V(g)$id1)) {legend(x="center", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3, title = g$attr1, bty = "n", horiz = TRUE)}
+
+plot.new()
+par(mar=c(0,0,0,0))
+
+# la légende pour le second attribut (la forme)
+if (!is.null(V(g)$id2)) {legend(x="center", legend = levels(factor(V(g)$id2)), pch = c(19,15,17)[1:length(levels(factor(V(g)$id2)))], col = "black", cex = 3, title = g$attr2, bty = "n", horiz = TRUE)}
 
 # Et on ferme le tunnel
 dev.off()
