@@ -81,7 +81,7 @@ g <- g - E(g)[weight < seuil]
 if (connexe == TRUE) {g <- induced.subgraph(g, vids = which(clusters(g)$membership == which.max(clusters(g)$csize)))}
 
 # On fixe un layout
-g$layout <- layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5)
+g$layout <- layout.norm(layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5), -1, 1, -1, 1)
 
 return(g)
 }
