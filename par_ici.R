@@ -23,9 +23,14 @@ g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 					seuil = 3, 
 					connexe = TRUE)
 
+# g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
+					# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					# seuil = 3, 
+					# connexe = TRUE)
+
 # g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
-#					seuil = 3, 
-#					connexe = TRUE)
+					# seuil = 3, 
+					# connexe = TRUE)
 
 ############
 ### PLOT ###
@@ -35,9 +40,10 @@ g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 # On lui donne les dimensions qu'on veut
 # Cela crée une sorte de tunnel qui enregistrera tous nos ajouts
 # Et qu'on ferme à la fin avec la fonction dev.off()
-pdf("output.pdf", height = 16, width = 14)
 
-layout(matrix(1:3, nrow = 3), widths = c(1,1,1), heights = c(10,1,1))
+pdf("output.pdf", height = 14 + g$windows, width = 14)
+
+layout(matrix(1:(1+g$windows), nrow = 1+g$windows), widths = rep(1,1+g$windows), heights = c(10,rep(1,g$windows)))
 
 # À ce stade et pour mémoire, le tunnel est ouvert
 # Ce qu'on fait ici est de dire qu'il n'y a aucune marge sauf à droite
@@ -111,17 +117,32 @@ plot(g,
 		edge.color = edge.color
 	)
 
-plot.new()
-par(mar=c(0,0,0,0))
-
 # la légende pour le premier attribut (la couleur)
-if (!is.null(V(g)$id1)) {legend(x="center", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3, title = g$attr1, bty = "n", horiz = TRUE, pt.cex = 4)}
-
-plot.new()
-par(mar=c(0,0,0,0))
+if (g$windows > 0) {		plot.new()
+							par(mar=c(0,0,0,0))
+							legend(	x="center", 
+									legend = levels(factor(V(g)$id1)), 
+									pch = 21, 
+									col = "black", 
+									pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), 
+									cex = g$windows + 1, 
+									title = g$attr1, 
+									bty = "n", 
+									horiz = TRUE, 
+									pt.cex = 4)}
 
 # la légende pour le second attribut (la forme)
-if (!is.null(V(g)$id2)) {legend(x="center", legend = levels(factor(V(g)$id2)), pch = c(19,15,18)[1:length(levels(factor(V(g)$id2)))], col = "black", cex = 3, title = g$attr2, bty = "n", horiz = TRUE, pt.cex = 4)}
+if (g$windows > 1) {	plot.new()
+							par(mar=c(0,0,0,0))
+							legend(	x="center", 	
+									legend = levels(factor(V(g)$id2)), 
+									pch = c(19,15,18)[1:length(levels(factor(V(g)$id2)))], 
+									col = "black", 
+									cex = 3, 
+									title = g$attr2, 
+									bty = "n", 
+									horiz = TRUE, 
+									pt.cex = 4)}
 
 # Et on ferme le tunnel
 dev.off()

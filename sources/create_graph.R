@@ -68,8 +68,13 @@ if (nchar(attr2) > 0) {
 # Voilà la projection…
 g <- bipartite.projection(g0)$proj1
 
-g$attr1 <- colnames(id1)[2]
-g$attr2 <- colnames(id2)[2]
+# On compte le nombre d'attributs
+g$windows <- 0
+
+if (nchar(attr1) > 0) {	g$attr1 <- colnames(id1)[2]
+						g$windows <- g$windows + 1}
+if (nchar(attr2) > 0) {	g$attr2 <- colnames(id2)[2]
+						g$windows <- g$windows + 1}
 
 # Et voilà le produit final !
 # À noter que le choix d'un seuil égal à 3 peut être modifié
