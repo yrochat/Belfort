@@ -1,10 +1,17 @@
-# fichier = "exemple/assomoir-adj.csv"
-# attr = "exemple/assomoir-attr.csv"
+# fichier = "reprojetrseauxdepersonnages/Bradbury2.csv"
+# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv"
+# attr1 = ""
+# attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv"
+# attr2 = ""
 # seuil = 3
 # connexe = TRUE
 
-create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr = "exemple/assomoir-attr.csv", seuil = 3, connexe = TRUE) {
+# create_graph <- function(	fichier = "exemple/assomoir-adj.csv", 
+#							attr1 = "exemple/assomoir-attr.csv",
+#							attr2 = "exemple/assomoir-attr2.csv", seuil = 3, connexe = TRUE) {
 
+create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr1 = "", attr2 = "", seuil = 3, connexe = TRUE) {
+	
 #################
 ### LE RÉSEAU ###
 #################
@@ -46,15 +53,28 @@ g0 <- graph.edgelist(tab0, directed = FALSE)
 # s'ils apparaissent sur les mêmes couples de pages)
 V(g0)$type <- bipartite.mapping(g0)$type
 
+# Et l'étudiant introduira un fichier avec les attributs
+# À noter que les sommets apparaissent dans le même ordre que dans la matrice
+if (nchar(attr1) > 0) {
+	id1 <- read.csv(file = attr1, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+	V(g0)$id1 <- id1[,2][match(V(g0)$name, id1[,1])]
+	}
+
+if (nchar(attr2) > 0) {
+	id2 <- read.csv(file = attr2, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
+	V(g0)$id2 <- id2[,2][match(V(g0)$name, id2[,1])]
+	}
+
 # Voilà la projection…
 g <- bipartite.projection(g0)$proj1
 
-# On simule (pour l'instant) un attribut en facteur pour chaque personnage, par exemple "homme", "femme", "groupe"
-# TODO Je dois encore implémenter cette partie. Ce devra correspondre à Sciences, Techniques, Politique, etc.
-# Et l'étudiant introduira un fichier avec les attributs
-# À noter que les sommets apparaissent dans le même ordre que dans la matrice
-identif <- read.csv(attr, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
-V(g)$identif <- identif[,2][match(V(g)$name, identif[,1])]
+# On compte le nombre d'attributs
+g$windows <- 0
+
+if (nchar(attr1) > 0) {	g$attr1 <- colnames(id1)[2]
+						g$windows <- g$windows + 1}
+if (nchar(attr2) > 0) {	g$attr2 <- colnames(id2)[2]
+						g$windows <- g$windows + 1}
 
 # Et voilà le produit final !
 # À noter que le choix d'un seuil égal à 3 peut être modifié
@@ -64,6 +84,9 @@ g <- g - E(g)[weight < seuil]
 
 # Si giant est égal à TRUE, nous ne conservons que la composante géante
 if (connexe == TRUE) {g <- induced.subgraph(g, vids = which(clusters(g)$membership == which.max(clusters(g)$csize)))}
+
+# On fixe un layout
+g$layout <- layout.norm(layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5), -1, 1, -1, 1)
 
 return(g)
 }
