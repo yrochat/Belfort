@@ -11,6 +11,7 @@ library(igraph)
 library(RColorBrewer)
 
 source("sources/create_graph.R")
+source("sources/shapes.R")
 
 #############################
 ### LA CREATION DU RESEAU ###
@@ -66,7 +67,7 @@ if (!is.null(V(g)$id1))	{vertex.color <- brewer.pal(length(unique((V(g)$id1))), 
 vertex.shape <- "circle"
 
 # S'il existe un second attribut (attr2), on distribue des formes aux sommets
-if (!is.null(V(g)$id2)) {vertex.shape <- c("circle", "square", "triangle")[factor(V(g)$id2)]}
+if (!is.null(V(g)$id2)) {vertex.shape <- c("circle", "square", "losange")[factor(V(g)$id2)]}
 
 # La couleur du texte
 vertex.label.color <- "black"
@@ -83,11 +84,17 @@ vertex.label.family <- "mono"
 # La taille de la police
 vertex.label.cex <- 2
 
-# La largeur des arêtes (pas fixe)
-edge.width <- ((E(g)$weight))/2
+# La largeur des arêtes, normalisée entre 0 et 1
+weight.normalised <- (E(g)$weight-min(E(g)$weight))/(max(E(g)$weight)-min(E(g)$weight))
+
+# La largeur des arêtes, avec minimum égal à 0*8+2 = 2 et maximum égal à 1*8+2 = 10
+edge.width <- weight.normalised*8+2
+
+# On définit une palette de gris pour faire un dégradé sur les arêtes
+gris <- grey(0:(max(E(g)$weight+1)-min(E(g)$weight))/(max(E(g)$weight+1)))
 
 # La couleur des arêtes
-edge.color <- "darkgrey"
+edge.color <- gris[max(E(g)$weight)-(E(g)$weight-min(E(g)$weight)+1)]
 
 # Et ici on dessine le graphe ! L'instance appelle les paramètres sauvés ci-dessus.
 plot(g,
@@ -108,13 +115,13 @@ plot.new()
 par(mar=c(0,0,0,0))
 
 # la légende pour le premier attribut (la couleur)
-if (!is.null(V(g)$id1)) {legend(x="center", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3, title = g$attr1, bty = "n", horiz = TRUE)}
+if (!is.null(V(g)$id1)) {legend(x="center", legend = levels(factor(V(g)$id1)), pch = 21, col = "black", pt.bg = brewer.pal(length(unique((V(g)$id1))), "Set1"), cex = 3, title = g$attr1, bty = "n", horiz = TRUE, pt.cex = 4)}
 
 plot.new()
 par(mar=c(0,0,0,0))
 
 # la légende pour le second attribut (la forme)
-if (!is.null(V(g)$id2)) {legend(x="center", legend = levels(factor(V(g)$id2)), pch = c(19,15,17)[1:length(levels(factor(V(g)$id2)))], col = "black", cex = 3, title = g$attr2, bty = "n", horiz = TRUE)}
+if (!is.null(V(g)$id2)) {legend(x="center", legend = levels(factor(V(g)$id2)), pch = c(19,15,18)[1:length(levels(factor(V(g)$id2)))], col = "black", cex = 3, title = g$attr2, bty = "n", horiz = TRUE, pt.cex = 4)}
 
 # Et on ferme le tunnel
 dev.off()
