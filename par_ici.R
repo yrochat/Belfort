@@ -17,16 +17,16 @@ source("sources/shapes.R")
 ### LA CREATION DU RESEAU ###
 #############################
 
-g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
-					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
-					attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
-					seuil = 3, 
-					connexe = TRUE)
-
 # g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
 					# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					# attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
 					# seuil = 3, 
 					# connexe = TRUE)
+
+g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
+					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					seuil = 3, 
+					connexe = TRUE)
 
 # g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 					# seuil = 3, 
@@ -97,7 +97,7 @@ weight.normalised <- (E(g)$weight-min(E(g)$weight))/(max(E(g)$weight)-min(E(g)$w
 edge.width <- weight.normalised*8+2
 
 # On définit une palette de gris pour faire un dégradé sur les arêtes
-gris <- grey(0:(1.2*max(E(g)$weight))/(1.2*max(E(g)$weight)))
+gris <- grey(0:(1.2*max(E(g)$weight))/(2.4*max(E(g)$weight))+0.5)
 
 # La couleur des arêtes
 edge.color <- gris[max(E(g)$weight)-(E(g)$weight-min(E(g)$weight)+1)]
