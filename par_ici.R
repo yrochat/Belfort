@@ -17,16 +17,16 @@ source("sources/shapes.R")
 ### LA CREATION DU RESEAU ###
 #############################
 
-g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
-					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
-					attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
-					seuil = 3, 
-					connexe = TRUE)
-
 # g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
 					# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					# attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv", 
 					# seuil = 3, 
 					# connexe = TRUE)
+
+g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv", 
+					attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv",
+					seuil = 3, 
+					connexe = TRUE)
 
 # g <- create_graph(	fichier = "reprojetrseauxdepersonnages/Bradbury2.csv",
 					# seuil = 3, 
@@ -48,7 +48,7 @@ layout(matrix(1:(1+g$windows), nrow = 1+g$windows), widths = rep(1,1+g$windows),
 # À ce stade et pour mémoire, le tunnel est ouvert
 # Ce qu'on fait ici est de dire qu'il n'y a aucune marge sauf à droite
 # et que le graphe doit prendre toute la place
-par(mar=c(0,0,0,0))
+par(mar=c(1,1,1,1))
 
 # Là on dessine le graphe, avec plein d'ajustements…
 # Pour plus de renseignements, taper dans la console la commande suivant :
@@ -97,7 +97,7 @@ weight.normalised <- (E(g)$weight-min(E(g)$weight))/(max(E(g)$weight)-min(E(g)$w
 edge.width <- weight.normalised*8+2
 
 # On définit une palette de gris pour faire un dégradé sur les arêtes
-gris <- grey(0:(max(E(g)$weight+1)-min(E(g)$weight))/(max(E(g)$weight+1)))
+gris <- grey(0:(1.2*max(E(g)$weight))/(2.4*max(E(g)$weight))+0.5)
 
 # La couleur des arêtes
 edge.color <- gris[max(E(g)$weight)-(E(g)$weight-min(E(g)$weight)+1)]
