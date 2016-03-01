@@ -91,7 +91,7 @@ vertex.label.family <- "mono"
 vertex.label.cex <- 2
 
 # La largeur des arêtes, normalisée entre 0 et 1
-weight.normalised <- (E(g)$weight-min(E(g)$weight))/(max(E(g)$weight)-min(E(g)$weight))
+weight.normalised <- (E(g)$weight-(min(E(g)$weight+1)))/(max(E(g)$weight)-(min(E(g)$weight)+1))
 
 # La largeur des arêtes, avec minimum égal à 0*8+2 = 2 et maximum égal à 1*8+2 = 10
 edge.width <- weight.normalised*8+2
