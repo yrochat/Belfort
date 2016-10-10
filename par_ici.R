@@ -1,6 +1,6 @@
 rm(list=ls())
 
-# Ici on définit l'espace de travail. MODIFIER-LE pour que cela corresponde 
+# Ici on définit l'espace de travail. MODIFIEZ-LE pour que cela corresponde 
 # à l'emplacement sur votre propre ordinateur
 setwd("~/Documents/Projets R/CaraNetwork")
 
@@ -20,6 +20,11 @@ source("sources/plotnework.R")
 #############################
 ### LA CREATION DU RESEAU ###
 #############################
+
+# On donne à la fonction les noms de fichiers
+# Qui doivent être dans le répetoire reprojetrseauxdepersonnages
+# Si on n'a pas d'attributs secondaires, on indique = NULL à la fonction
+# La fonction sort un pdf dans le répetoire principal
 
 plotnetwork(fichierindex = "1990.Gunnm-adj.csv",
             fichierattr1 = "1990.Gunnm-attr.csv", #si absent = NULL,
