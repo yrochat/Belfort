@@ -1,20 +1,8 @@
-# fichier = "reprojetrseauxdepersonnages/Bradbury2.csv"
-# attr1 = "reprojetrseauxdepersonnages/Bradbury2-attr.csv"
-# attr1 = ""
-# attr2 = "reprojetrseauxdepersonnages/Bradbury2-attr2.csv"
-# attr2 = ""
-# seuil = 3
-# connexe = TRUE
-
-# create_graph <- function(	fichier = "exemple/assomoir-adj.csv", 
-#							attr1 = "exemple/assomoir-attr.csv",
-#							attr2 = "exemple/assomoir-attr2.csv", seuil = 3, connexe = TRUE) {
-
 create_graph <- function(fichier = "exemple/assomoir-adj.csv", attr1 = "", attr2 = "", seuil = 3, connexe = TRUE) {
 	
-#################
-### LE RÉSEAU ###
-#################
+############################
+### CONSTRUIRE LE RÉSEAU ###
+############################
 
 # On importe le csv sous forme de matrice d'incidence
 mat <- read.csv(fichier, header = TRUE, check.names = FALSE, sep=",")
@@ -53,7 +41,7 @@ g0 <- graph.edgelist(tab0, directed = FALSE)
 # s'ils apparaissent sur les mêmes couples de pages)
 V(g0)$type <- bipartite.mapping(g0)$type
 
-# Et l'étudiant introduira un fichier avec les attributs
+# Et l'étudiant introduira un fichier avec les attributs secondaires
 # À noter que les sommets apparaissent dans le même ordre que dans la matrice
 if (nchar(attr1) > 0) {
 	id1 <- read.csv(file = attr1, header = TRUE, check.names = FALSE, sep=",", stringsAsFactors = FALSE)
@@ -86,8 +74,8 @@ g <- g - E(g)[weight < seuil]
 if (connexe == TRUE) {g <- induced.subgraph(g, vids = which(clusters(g)$membership == which.max(clusters(g)$csize)))}
 
 # On fixe un layout
-g$layout <- layout.norm(layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5), -1, 1, -1, 1)
-
+# g$layout <- layout.norm(layout.fruchterman.reingold(g, repulserad = vcount(g)^3.5), -1, 1, -1, 1)
+g$layout <- layout.norm(layout.fruchterman.reingold(g), -1, 1, -1, 1)
 return(g)
 }
 
