@@ -16,8 +16,15 @@ setwd("reprojetrseauxdepersonnages")
 list_of_sources <- list.files()
 list_of_adjacency_sources <- list_of_sources[str_detect(list_of_sources, "adj.csv")]
 
-g <- create_graph(list_of_adjacency_sources[1])
+g <- lapply(list_of_adjacency_sources, create_graph)
 
+ggraph(g[[1]]) + 
+  geom_node_point() + 
+  geom_edge_link(aes(width = weight)) + 
+  scale_edge_width_continuous(range = c(.1,2)) +
+  geom_node_label(aes(label = name), size = 2, repel = TRUE, label.size = .1)
+
+  
 ## TODO
 
 ## shiny app, voir https://github.com/dgrtwo/love-actually-network
