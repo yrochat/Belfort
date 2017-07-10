@@ -5,6 +5,9 @@ library(stringr)
 library(ggraph)
 library(readr)
 library(tidygraph)
+library(gridExtra)
+library(extrafont)
+loadfonts()
 
 set_graph_style(plot_margin = margin(1,1,1,1))
 
@@ -19,20 +22,35 @@ list_of_adjacency_sources <- list_of_sources[str_detect(list_of_sources, "adj.cs
 
 g <- lapply(list_of_adjacency_sources, create_graph)
 
-g[[1]] <- as_tbl_graph(g[[1]])
+titres <- str_replace_all(string = list_of_adjacency_sources, pattern = "-adj.csv", replacement = "")
 
-V(g[[1]])$degree <- degree(g[[1]])
+setwd(wd)
 
-ggraph(g[[1]]) + 
-  geom_node_point() + 
-  geom_edge_link(aes(width = weight)) + 
-  scale_edge_width_continuous(range = c(.1,2)) +
-  geom_node_label(aes(label = name), size = 2, repel = TRUE, label.size = .1)
+for (i in 1:length(g)) {
+  g[[i]] <- as_tbl_graph(g[[i]])
 
-ggplot(as_tibble(g[[1]]), aes(degree)) + 
-  stat_ecdf() +
-  theme_bw()
+  V(g[[i]])$degree <- degree(g[[i]])
+}
 
+pdf("hello.pdf", width = 14, height = 7)
+
+for (i in 1:length(g)) {
+  
+  plot1 <- ggraph(g[[i]]) + 
+    geom_node_point() + 
+    geom_edge_link(aes(width = weight)) + 
+    scale_edge_width_continuous(range = c(.1,2)) +
+    geom_node_label(aes(label = name), size = 2, repel = TRUE, label.size = .1, family = "Helvetica")
+  
+  plot2 <- ggplot(as_tibble(g[[i]]), aes(degree)) + 
+    stat_ecdf() +
+    theme_gray() +
+    ggtitle(str_c("Distribution des degrés de ", titres[i]))
+  
+  grid.arrange(plot1, plot2, nrow=1, ncol=2)
+}
+
+dev.off()
   
 ## TODO
 
