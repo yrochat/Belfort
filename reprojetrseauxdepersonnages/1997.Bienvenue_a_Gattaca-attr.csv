@@ -1,17 +1,17 @@
 personnage/min,types
-Jerome(Eugene),Science
-directeur Josef,Politque
+Jerome(Eugene),Technique
+directeur Josef,Politique
 le comite,Politique
 docteur Lamar,Science
-parents du docteur Lamar,Indefini
-Fils du docteur Lamar,Indefini
-Irene Cassini,Technique
-Voix Off,Indefini
-La mere,Indefini
+parents du docteur Lamar,Indéfini
+Fils du docteur Lamar,Indéfini
+Irene Cassini,Science
+Voix Off,Indéfini
+La mere,Indéfini
 geneticien,Technique
 Dieu,Religion
-Infirmiere,Indefini
-Le pere,Indefini
+Infirmiere,Indéfini
+Le pere,Indéfini
 Vincent(Jerome),Technique
 Maitresse de maternelle,Science
 Anton(frere parfait),Politique
@@ -19,15 +19,15 @@ les astronautes,Science
 Les nettoyeurs,Technique
 Le chef des nettoyeurs,Politique
 les employes de gattacca,Science
-Medecin prive,Science/Technique
+Medecin prive,Technique
 les inspecteur du FBI,Technique
 Detective Hugo,Technique
 directeur de mission assassiné,Politique
 Cavendich,Politique
 Médecins quelconques,Science
 Pianiste,Technique
-Civils (invalides),Indefini
-Agents de controle,Indefini
-Figurants au bal,Indefini
-Musiciens,Indefini
-Vigile,Indefini
+Civils (invalides),Indéfini
+Agents de controle,Technique
+Figurants au bal,Indéfini
+Musiciens,Indéfini
+Vigile,Technique
