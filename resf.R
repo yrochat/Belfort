@@ -43,7 +43,7 @@ list_of_adjacency_sources <-
   list_of_sources[.]
 
 
-### Chargement des données et creéation des réseaux
+### Chargement des données et création des réseaux
 
 # Seuil à 3, tous les sommets
 g_3_unconnected <- lapply(list_of_adjacency_sources,
@@ -119,29 +119,64 @@ g_3_connected <- g_3_connected %>% get_title
 g_10_connected <- g_10_connected %>% get_title
 
 
+### Dessiner les réseaux
 
-
-
-
-plot1 <- ggraph(g) +
+draw <- function(g) {
+  ggraph(g) +
   geom_node_point() +
   geom_edge_link(aes(width = weight)) +
-  scale_edge_width_continuous(range = c(.1, 2)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
   geom_node_label(
     aes(label = name),
     size = 2,
     repel = TRUE,
     label.size = .1,
-    family = "Helvetica"
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
   )
+}
 
 
+### METRO 2033 + ORANGE MECANIQUE
+
+metro_2033 <- which(str_detect(titles, "Metro2033"))
+metro_2033_plot <- draw(g_3_connected[[metro_2033]])
+
+ggsave("viz/metro_2033.png", metro_2033_plot, width = 10, height = 7)
+
+orange <- which(str_detect(titles, "OrangeMeca"))
+orange_plot <- draw(g_3_connected[[orange]])
+
+ggsave("viz/orange.png", metro_2033_plot, width = 10, height = 7)
+
+### La Cité des Permutants
+
+cite_permutants <- which(str_detect(titles, "la_cite_des_permutants"))
+cite_permutants_plot <- draw(g_3_connected[[cite_permutants]])
+
+ggsave("viz/cite_permutants.pdf", cite_permutants_plot, width = 9, height = 7)
 
 
+### Seul sur Mars
+
+seul_mars <- which(str_detect(titles, "Seul_sur_mars"))
+seul_mars_plot <- draw(g_3_connected[[seul_mars]])
+
+ggsave("viz/seul_mars.pdf", seul_mars_plot, width = 9, height = 7)
 
 
+### BLOODMONEY + CENTAURE
 
+bloodmoney <- which(str_detect(titles, "Bloodmoney"))
+bloodmoney_plot <- draw(g_3_connected[[bloodmoney]])
 
+centaure <- which(str_detect(titles, "Ledieuvenuducentaure"))
+centaure_plot <- draw(g_3_connected[[centaure]])
+
+bloodmoney_centaure_plot <- marrangeGrob(list(bloodmoney_plot, centaure_plot), nrow = 1, ncol = 2)
+
+ggsave("viz/bloodmoney_centaure.pdf", bloodmoney_centaure_plot, width = 16, height = 7)
 
 
 
