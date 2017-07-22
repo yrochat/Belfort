@@ -1,33 +1,33 @@
-personnage/min,2nd relation
-Jerome(Eugene),Contre
-directeur Josef,Pour
-le comite,Pour
-docteur Lamar,Contre
-parents du docteur Lamar,indefini
-Fils du docteur Lamar,Contre
-Irene Cassini,Contre
+Personnage,
+Jerome(Eugene),Opposant
+directeur Josef,Partisan
+le comite,Partisan
+docteur Lamar,Opposant
+parents du docteur Lamar,Indéfini
+Fils du docteur Lamar,Opposant
+Irene Cassini,Opposant
 Voix Off,indefini
-La mere,Pour
-geneticien,Pour
-Dieu,indefini
-Infirmiere,Pour
-Le pere,Pour
-Vincent(Jerome),Contre
-Maitresse de maternelle,Pour
-Anton(frere parfait),Contre
-les astronautes,Pour
-Les nettoyeurs,indefini
-Le chef des nettoyeurs,Pour
-les employes de gattacca,Pour
-Medecin prive,Contre
-les inspecteur du FBI,Pour
-Detective Hugo,Pour
-directeur de mission assassiné,Pour
-Cavendich,indefini
-Médecins quelconques,Pour
-Pianiste,indefini
-Civils (invalides),Contre
-Agents de controle,Pour
-Figurants au bal,indefini
-Musiciens,indefini
-Vigile,Pour
+La mere,Partisan
+geneticien,Partisan
+Dieu,Indéfini
+Infirmiere,Partisan
+Le pere,Partisan
+Vincent(Jerome),Opposant
+Maitresse de maternelle,Partisan
+Anton(frere parfait),Opposant
+les astronautes,Partisan
+Les nettoyeurs,Indéfini
+Le chef des nettoyeurs,Partisan
+les employes de gattacca,Partisan
+Medecin prive,Opposant
+les inspecteur du FBI,Partisan
+Detective Hugo,Partisan
+directeur de mission assassiné,Partisan
+Cavendich,Indéfini
+Médecins quelconques,Partisan
+Pianiste,Indéfini
+Civils (invalides),Opposant
+Agents de controle,Partisan
+Figurants au bal,Indéfini
+Musiciens,Indéfini
+Vigile,Partisan
