@@ -138,17 +138,21 @@ draw <- function(g) {
 }
 
 
-### METRO 2033 + ORANGE MECANIQUE
+### METRO 2033
 
 metro_2033 <- which(str_detect(titles, "Metro2033"))
 metro_2033_plot <- draw(g_3_connected[[metro_2033]])
 
 ggsave("viz/metro_2033.png", metro_2033_plot, width = 10, height = 7)
 
+
+## ORANGE MECANIQUE
+
 orange <- which(str_detect(titles, "OrangeMeca"))
 orange_plot <- draw(g_3_connected[[orange]])
 
-ggsave("viz/orange.png", metro_2033_plot, width = 10, height = 7)
+ggsave("viz/orange.png", orange_plot, width = 10, height = 7)
+
 
 ### La Cité des Permutants
 
