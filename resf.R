@@ -219,7 +219,7 @@ ggsave("viz/Image04.png", meta_barons_plot, width = 10, height = 7)
 
 ### Seul sur Mars
 
-seul_mars <- which(str_detect(titles, "Seul_sur_Mars"))
+seul_mars <- which(str_detect(titles, "Seul_sur_mars"))
 g_3_connected[[seul_mars]]$layout <- layout_with_fr(g_3_connected[[seul_mars]], weights = NULL)
 seul_mars_plot <- draw(g_3_connected[[seul_mars]])
 
@@ -437,6 +437,13 @@ neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
 
 ggsave("viz/Image21.png", neuromancien_plot, width = 10, height = 7)
 
+
+### FINAL FANTASY VII
+
+neuromancien <- which(str_detect(titles, "Neuromancien"))
+neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
+
+ggsave("viz/Image21.png", neuromancien_plot, width = 10, height = 7)
 
 
 ###########
