@@ -184,7 +184,7 @@ metro_2033_plot <- draw(g_3_connected[[metro_2033]])
 
 # graph.density(g_3_connected[[metro_2033]])
 
-ggsave("viz/metro_2033.png", metro_2033_plot, width = 10, height = 7)
+ggsave("viz/Image01.png", metro_2033_plot, width = 10, height = 7)
 
 
 ## ORANGE MECANIQUE
@@ -193,7 +193,7 @@ orange <- which(str_detect(titles, "OrangeMeca"))
 g_3_connected[[orange]]$layout <- layout_with_fr(g_3_connected[[orange]], niter = 2500)
 orange_plot <- draw(g_3_connected[[orange]])
 
-ggsave("viz/orange.png", orange_plot, width = 10, height = 7)
+ggsave("viz/Image02.png", orange_plot, width = 10, height = 7)
 
 
 ### La Cité des Permutants
@@ -206,7 +206,7 @@ cite_permutants_plot_10 <- draw(delete_edges(g_3_connected[[cite_permutants]], E
 
 cite_permutants_plot <- marrangeGrob(list(cite_permutants_plot_3, cite_permutants_plot_10), nrow = 1, ncol = 2, top = "")
 
-ggsave("viz/cite_permutants.png", cite_permutants_plot, width = 15, height = 7)
+ggsave("viz/Image03.png", cite_permutants_plot, width = 15, height = 7)
 
 
 ### LA CASTE DES META-BARONS
@@ -214,7 +214,7 @@ ggsave("viz/cite_permutants.png", cite_permutants_plot, width = 15, height = 7)
 meta_barons <- which(str_detect(titles, "Meta-Baron"))
 meta_barons_plot <- draw(g_3_connected[[meta_barons]])
 
-ggsave("viz/meta_barons.png", meta_barons_plot, width = 10, height = 7)
+ggsave("viz/Image04.png", meta_barons_plot, width = 10, height = 7)
 
 
 ### Seul sur Mars
@@ -226,7 +226,7 @@ seul_mars_plot <- draw(g_3_connected[[seul_mars]])
 # le graphe est hyper-connecté
 # graph.density(g_3_connected[[seul_mars]])
 
-ggsave("viz/seul_mars.png", seul_mars_plot, width = 10, height = 7)
+ggsave("viz/Image05.png", seul_mars_plot, width = 10, height = 7)
 
 
 ### BLOODMONEY + CENTAURE
@@ -239,7 +239,7 @@ centaure_plot <- draw(g_3_connected[[centaure]])
 
 bloodmoney_centaure_plot <- marrangeGrob(list(bloodmoney_plot, centaure_plot), nrow = 1, ncol = 2, top = "")
 
-ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, height = 7)
+ggsave("viz/Image06.png", bloodmoney_centaure_plot, width = 16, height = 7)
 
 
 # ### ILE MYSTERIEUSE
@@ -255,7 +255,16 @@ ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, heig
 begum <- which(str_detect(titles, "500millions_Begum"))
 begum_plot <- draw(g_3_connected[[begum]])
 
-ggsave("viz/begum.png", begum_plot, width = 10, height = 7)
+ggsave("viz/Image07.png", begum_plot, width = 10, height = 7)
+
+
+### SECONDE FONDATION
+
+seconde_fondation <- which(str_detect(titles, "fondation3"))
+seconde_fondation_plot <- draw(g_3_connected[[seconde_fondation]])
+
+ggsave("viz/Image08.png", seconde_fondation_plot, width = 10, height = 7)
+
 
 
 ### COMPAGNIE DES GLACES
@@ -263,7 +272,7 @@ ggsave("viz/begum.png", begum_plot, width = 10, height = 7)
 compagnie_glaces <- which(str_detect(titles, "CompagnieDesGlaces"))
 compagnie_glaces_plot <- draw(g_3_connected[[compagnie_glaces]])
 
-ggsave("viz/compagnie_glaces.png", compagnie_glaces_plot, width = 10, height = 7)
+ggsave("viz/Image09.png", compagnie_glaces_plot, width = 10, height = 7)
 
 
 ##################
@@ -300,7 +309,7 @@ draw2 <- function(g) {
 ile_mysterieuse <- which(str_detect(titles, "IleMysterieuse"))
 ile_mysterieuse_plot <- draw2(g_3_connected[[ile_mysterieuse]])
 
-ggsave("viz/ile_mysterieuse.png", ile_mysterieuse_plot, width = 10, height = 7)
+ggsave("viz/Image12.png", ile_mysterieuse_plot, width = 10, height = 7)
 
 
 ### ILE MYSTERIEUSE AVEC ATTRIBUTS 3
@@ -334,7 +343,7 @@ ile_mysterieuse_plot3 <- ggraph(g_3_connected[[ile_mysterieuse]]) +
   scale_shape_manual(values = c(15, 16, 17, 18, 4, 8), "Attribut secondaire") +
   scale_color_brewer(palette = "Set1", "Type")
 
-ggsave("viz/ile_mysterieuse3.png", ile_mysterieuse_plot3, width = 10, height = 7)
+ggsave("viz/Image13.png", ile_mysterieuse_plot3, width = 10, height = 7)
 
 
 ### L'ILE DU DOCTEUR MOREAU
@@ -342,7 +351,7 @@ ggsave("viz/ile_mysterieuse3.png", ile_mysterieuse_plot3, width = 10, height = 7
 docteur_moreau <- which(str_detect(titles, "Moreau"))
 docteur_moreau_plot <- draw2(g_3_connected[[docteur_moreau]])
 
-ggsave("viz/docteur_moreau.png", docteur_moreau_plot, width = 10, height = 7)
+ggsave("viz/Image14.png", docteur_moreau_plot, width = 10, height = 7)
 
 
 ### JEKYLL & HYDE
@@ -364,7 +373,7 @@ jekyll_hyde_plot <- ggraph(g_3_connected[[jekyll_hyde]]) +
   scale_size_area(max_size = 5, "Degré") + 
   scale_color_brewer(palette = "Set1", "Type")
 
-ggsave("viz/jekyll_hyde.png", jekyll_hyde_plot, width = 10, height = 7)
+ggsave("viz/Image15.png", jekyll_hyde_plot, width = 10, height = 7)
 
 
 ### FAHRENHEIT 451
@@ -372,7 +381,7 @@ ggsave("viz/jekyll_hyde.png", jekyll_hyde_plot, width = 10, height = 7)
 fahrenheit_451 <- which(str_detect(titles, "Fahrenheit451"))
 fahrenheit_451_plot <- draw2(g_3_connected[[fahrenheit_451]])
 
-ggsave("viz/fahrenheit_451.png", fahrenheit_451_plot, width = 10, height = 7)
+ggsave("viz/Image16.png", fahrenheit_451_plot, width = 10, height = 7)
 
 
 ### 1984
@@ -380,7 +389,7 @@ ggsave("viz/fahrenheit_451.png", fahrenheit_451_plot, width = 10, height = 7)
 eighty_four <- which(str_detect(titles, "1949.1984"))
 eighty_four_plot <- draw2(g_3_connected[[eighty_four]])
 
-ggsave("viz/eighty_four.png", eighty_four_plot, width = 10, height = 7)
+ggsave("viz/Image17.png", eighty_four_plot, width = 10, height = 7)
 
 
 ### EQUILIBRIUM
@@ -402,7 +411,7 @@ equilibrium_plot <- ggraph(g_3_connected[[equilibrium]]) +
   scale_size_area(max_size = 5, "Degré") + 
   scale_color_brewer(palette = "Set1", "Type")
 
-ggsave("viz/equilibrium.png", equilibrium_plot, width = 10, height = 7)
+ggsave("viz/Image18.png", equilibrium_plot, width = 10, height = 7)
 
 
 ### GATTACA
@@ -410,7 +419,7 @@ ggsave("viz/equilibrium.png", equilibrium_plot, width = 10, height = 7)
 gattaca <- which(str_detect(titles, "Bienvenue_a_Gattaca"))
 gattaca_plot <- draw2(g_3_connected[[gattaca]])
 
-ggsave("viz/gattaca.png", gattaca_plot, width = 10, height = 7)
+ggsave("viz/Image19.png", gattaca_plot, width = 10, height = 7)
 
 
 ### STALKER
@@ -418,7 +427,7 @@ ggsave("viz/gattaca.png", gattaca_plot, width = 10, height = 7)
 stalker <- which(str_detect(titles, "Stalker"))
 stalker_plot <- draw2(g_3_connected[[stalker]])
 
-ggsave("viz/stalker.png", stalker_plot, width = 10, height = 7)
+ggsave("viz/Image20.png", stalker_plot, width = 10, height = 7)
 
 
 ### NEUROMANCIEN
@@ -426,7 +435,7 @@ ggsave("viz/stalker.png", stalker_plot, width = 10, height = 7)
 neuromancien <- which(str_detect(titles, "Neuromancien"))
 neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
 
-ggsave("viz/neuromancien.png", neuromancien_plot, width = 10, height = 7)
+ggsave("viz/Image21.png", neuromancien_plot, width = 10, height = 7)
 
 
 
