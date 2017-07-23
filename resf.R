@@ -45,10 +45,35 @@ list_of_adjacency_sources <-
 
 ### Chargement des données et création des réseaux
 
+get_attr1 <- function(x) {
+  attr1 <- x %>% 
+    str_replace("-adj.csv", "") %>% 
+    str_c("-attr.csv")
+  if(attr1 %in% list_of_sources) {
+    return(attr1)
+  } else {
+    return("")
+  }
+}
+
+get_attr2 <- function(x) {
+  attr2 <- x %>% 
+    str_replace("-adj.csv", "") %>% 
+    str_c("-attr2.csv")
+  if(attr2 %in% list_of_sources) {
+    return(attr2)
+  } else {
+    return("")
+  }
+}
+
+
 # Seuil à 3, tous les sommets
 g_3_unconnected <- lapply(list_of_adjacency_sources,
                           function(x)
                             create_graph(x,
+                                         attr1 = get_attr1(x),
+                                         attr2 = get_attr2(x),
                                          connexe = FALSE,
                                          seuil = 3))
 
@@ -56,6 +81,8 @@ g_3_unconnected <- lapply(list_of_adjacency_sources,
 g_10_unconnected <- lapply(list_of_adjacency_sources,
                            function(x)
                              create_graph(x,
+                                          attr1 = get_attr1(x),
+                                          attr2 = get_attr2(x),
                                           connexe = FALSE,
                                           seuil = 10))
 
@@ -63,6 +90,8 @@ g_10_unconnected <- lapply(list_of_adjacency_sources,
 g_3_connected <- lapply(list_of_adjacency_sources,
                         function(x)
                           create_graph(x,
+                                       attr1 = get_attr1(x),
+                                       attr2 = get_attr2(x),
                                        connexe = TRUE,
                                        seuil = 3))
 
@@ -70,6 +99,8 @@ g_3_connected <- lapply(list_of_adjacency_sources,
 g_10_connected <- lapply(list_of_adjacency_sources,
                          function(x)
                            create_graph(x,
+                                        attr1 = get_attr1(x),
+                                        attr2 = get_attr2(x),
                                         connexe = TRUE,
                                         seuil = 10))
 
@@ -137,6 +168,13 @@ draw <- function(g) {
   ) +
   scale_size_area(max_size = 5, "Degré")
 }
+
+
+##################
+###            ###
+### CHAPITRE 2 ###
+###            ###
+##################
 
 
 ### METRO 2033
@@ -212,14 +250,12 @@ ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, heig
 # ggsave("viz/ile_mysterieuse.png", ile_mysterieuse_plot, width = 10, height = 7)
 
 
-### Begum
+### BEGUM
 
 begum <- which(str_detect(titles, "500millions_Begum"))
 begum_plot <- draw(g_3_connected[[begum]])
 
 ggsave("viz/begum.png", begum_plot, width = 10, height = 7)
-
-
 
 
 ### COMPAGNIE DES GLACES
@@ -228,6 +264,170 @@ compagnie_glaces <- which(str_detect(titles, "CompagnieDesGlaces"))
 compagnie_glaces_plot <- draw(g_3_connected[[compagnie_glaces]])
 
 ggsave("viz/compagnie_glaces.png", compagnie_glaces_plot, width = 10, height = 7)
+
+
+##################
+###            ###
+### CHAPITRE 3 ###
+###            ###
+##################
+
+
+### Dessiner les réseaux avec des attributs
+
+draw2 <- function(g) {
+  ggraph(g) +
+    geom_edge_link(aes(width = weight)) +
+    geom_node_point(aes(size = degree(g), color = id1, shape = id2)) +
+    scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+    geom_node_label(
+      aes(label = name),
+      size = 2,
+      repel = TRUE,
+      label.size = .1,
+      family = "Helvetica",
+      alpha = .8,
+      segment.colour = "pink"
+    ) +
+    scale_size_area(max_size = 5, "Degré") + 
+    scale_shape_manual(values = c(15, 16, 17, 18, 4, 8), "Attribut secondaire") +
+    scale_color_brewer(palette = "Set1", "Type")
+}
+
+
+### ILE MYSTERIEUSE AVEC ATTRIBUTS 2
+
+ile_mysterieuse <- which(str_detect(titles, "IleMysterieuse"))
+ile_mysterieuse_plot <- draw2(g_3_connected[[ile_mysterieuse]])
+
+ggsave("viz/ile_mysterieuse.png", ile_mysterieuse_plot, width = 10, height = 7)
+
+
+### ILE MYSTERIEUSE AVEC ATTRIBUTS 3
+
+id3 <-
+  read.csv(
+    file = "reprojetrseauxdepersonnages/1875.IleMysterieuse-attr3.csv",
+    header = TRUE,
+    check.names = FALSE,
+    sep = ",",
+    stringsAsFactors = FALSE
+  )
+
+V(g_3_connected[[ile_mysterieuse]])$id3 <- 
+  id3[, 2][match(V(g_3_connected[[ile_mysterieuse]])$name, id3[, 1])]
+
+ile_mysterieuse_plot3 <- ggraph(g_3_connected[[ile_mysterieuse]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[ile_mysterieuse]]), color = id1, shape = id3)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_shape_manual(values = c(15, 16, 17, 18, 4, 8), "Attribut secondaire") +
+  scale_color_brewer(palette = "Set1", "Type")
+
+ggsave("viz/ile_mysterieuse3.png", ile_mysterieuse_plot3, width = 10, height = 7)
+
+
+### L'ILE DU DOCTEUR MOREAU
+
+docteur_moreau <- which(str_detect(titles, "Moreau"))
+docteur_moreau_plot <- draw2(g_3_connected[[docteur_moreau]])
+
+ggsave("viz/docteur_moreau.png", docteur_moreau_plot, width = 10, height = 7)
+
+
+### JEKYLL & HYDE
+
+jekyll_hyde <- which(str_detect(titles, "Jekyll_Hyde"))
+jekyll_hyde_plot <- ggraph(g_3_connected[[jekyll_hyde]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[jekyll_hyde]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
+
+ggsave("viz/jekyll_hyde.png", jekyll_hyde_plot, width = 10, height = 7)
+
+
+### FAHRENHEIT 451
+
+fahrenheit_451 <- which(str_detect(titles, "Fahrenheit451"))
+fahrenheit_451_plot <- draw2(g_3_connected[[fahrenheit_451]])
+
+ggsave("viz/fahrenheit_451.png", fahrenheit_451_plot, width = 10, height = 7)
+
+
+### 1984
+
+eighty_four <- which(str_detect(titles, "1949.1984"))
+eighty_four_plot <- draw2(g_3_connected[[eighty_four]])
+
+ggsave("viz/eighty_four.png", eighty_four_plot, width = 10, height = 7)
+
+
+### EQUILIBRIUM
+
+equilibrium <- which(str_detect(titles, "Equilibrium"))
+equilibrium_plot <- ggraph(g_3_connected[[equilibrium]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[equilibrium]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
+
+ggsave("viz/equilibrium.png", equilibrium_plot, width = 10, height = 7)
+
+
+### GATTACA
+
+gattaca <- which(str_detect(titles, "Bienvenue_a_Gattaca"))
+gattaca_plot <- draw2(g_3_connected[[gattaca]])
+
+ggsave("viz/gattaca.png", gattaca_plot, width = 10, height = 7)
+
+
+### STALKER
+
+stalker <- which(str_detect(titles, "Stalker"))
+stalker_plot <- draw2(g_3_connected[[stalker]])
+
+ggsave("viz/stalker.png", stalker_plot, width = 10, height = 7)
+
+
+### NEUROMANCIEN
+
+neuromancien <- which(str_detect(titles, "Neuromancien"))
+neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
+
+ggsave("viz/neuromancien.png", neuromancien_plot, width = 10, height = 7)
+
 
 
 ###########
