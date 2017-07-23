@@ -123,7 +123,7 @@ g_10_connected <- g_10_connected %>% get_title
 
 draw <- function(g) {
   ggraph(g) +
-  geom_node_point() +
+  geom_node_point(aes(size = degree(g))) +
   geom_edge_link(aes(width = weight)) +
   scale_edge_width_continuous(range = c(.1, 2), "Poids") +
   geom_node_label(
@@ -134,7 +134,8 @@ draw <- function(g) {
     family = "Helvetica",
     alpha = .8,
     segment.colour = "pink"
-  )
+  ) +
+  scale_size_area(max_size = 5, "Degré")
 }
 
 
@@ -157,9 +158,14 @@ ggsave("viz/orange.png", orange_plot, width = 10, height = 7)
 ### La Cité des Permutants
 
 cite_permutants <- which(str_detect(titles, "la_cite_des_permutants"))
-cite_permutants_plot <- draw(g_3_connected[[cite_permutants]])
+g_3_connected[[cite_permutants]]$layout <- layout.auto(g_3_connected[[cite_permutants]])
 
-ggsave("viz/cite_permutants.pdf", cite_permutants_plot, width = 9, height = 7)
+cite_permutants_plot_3 <- draw(g_3_connected[[cite_permutants]])
+cite_permutants_plot_10 <- draw(delete_edges(g_3_connected[[cite_permutants]], E(g_3_connected[[cite_permutants]])[weight < 10]))
+
+cite_permutants_plot <- marrangeGrob(list(cite_permutants_plot_3, cite_permutants_plot_10), nrow = 1, ncol = 2, top = "")
+
+ggsave("viz/cite_permutants.png", cite_permutants_plot, width = 15, height = 7)
 
 
 ### Seul sur Mars
@@ -167,7 +173,7 @@ ggsave("viz/cite_permutants.pdf", cite_permutants_plot, width = 9, height = 7)
 seul_mars <- which(str_detect(titles, "Seul_sur_mars"))
 seul_mars_plot <- draw(g_3_connected[[seul_mars]])
 
-ggsave("viz/seul_mars.pdf", seul_mars_plot, width = 9, height = 7)
+ggsave("viz/seul_mars.png", seul_mars_plot, width = 10, height = 7)
 
 
 ### BLOODMONEY + CENTAURE
@@ -180,8 +186,23 @@ centaure_plot <- draw(g_3_connected[[centaure]])
 
 bloodmoney_centaure_plot <- marrangeGrob(list(bloodmoney_plot, centaure_plot), nrow = 1, ncol = 2)
 
-ggsave("viz/bloodmoney_centaure.pdf", bloodmoney_centaure_plot, width = 16, height = 7)
+ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, height = 7, top = "")
 
+
+# ### ILE MYSTERIEUSE
+# 
+# ile_mysterieuse <- which(str_detect(titles, "IleMysterieuse"))
+# ile_mysterieuse_plot <- draw(g_3_connected[[ile_mysterieuse]])
+# 
+# ggsave("viz/ile_mysterieuse.png", ile_mysterieuse_plot, width = 10, height = 7)
+
+
+### COMPAGNIE DES GLACES
+
+compagnie_glaces <- which(str_detect(titles, "CompagnieDesGlaces"))
+compagnie_glaces_plot <- draw(g_3_connected[[compagnie_glaces]])
+
+ggsave("viz/compagnie_glaces.png", compagnie_glaces_plot, width = 10, height = 7)
 
 
 ###########
