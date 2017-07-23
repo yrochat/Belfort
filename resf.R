@@ -144,12 +144,15 @@ draw <- function(g) {
 metro_2033 <- which(str_detect(titles, "Metro2033"))
 metro_2033_plot <- draw(g_3_connected[[metro_2033]])
 
+# graph.density(g_3_connected[[metro_2033]])
+
 ggsave("viz/metro_2033.png", metro_2033_plot, width = 10, height = 7)
 
 
 ## ORANGE MECANIQUE
 
 orange <- which(str_detect(titles, "OrangeMeca"))
+g_3_connected[[orange]]$layout <- layout_with_fr(g_3_connected[[orange]], niter = 2500)
 orange_plot <- draw(g_3_connected[[orange]])
 
 ggsave("viz/orange.png", orange_plot, width = 10, height = 7)
@@ -168,10 +171,22 @@ cite_permutants_plot <- marrangeGrob(list(cite_permutants_plot_3, cite_permutant
 ggsave("viz/cite_permutants.png", cite_permutants_plot, width = 15, height = 7)
 
 
+### LA CASTE DES META-BARONS
+
+meta_barons <- which(str_detect(titles, "Meta-Baron"))
+meta_barons_plot <- draw(g_3_connected[[meta_barons]])
+
+ggsave("viz/meta_barons.png", meta_barons_plot, width = 10, height = 7)
+
+
 ### Seul sur Mars
 
-seul_mars <- which(str_detect(titles, "Seul_sur_mars"))
+seul_mars <- which(str_detect(titles, "Seul_sur_Mars"))
+g_3_connected[[seul_mars]]$layout <- layout_with_fr(g_3_connected[[seul_mars]], weights = NULL)
 seul_mars_plot <- draw(g_3_connected[[seul_mars]])
+
+# le graphe est hyper-connecté
+# graph.density(g_3_connected[[seul_mars]])
 
 ggsave("viz/seul_mars.png", seul_mars_plot, width = 10, height = 7)
 
@@ -184,9 +199,9 @@ bloodmoney_plot <- draw(g_3_connected[[bloodmoney]])
 centaure <- which(str_detect(titles, "Ledieuvenuducentaure"))
 centaure_plot <- draw(g_3_connected[[centaure]])
 
-bloodmoney_centaure_plot <- marrangeGrob(list(bloodmoney_plot, centaure_plot), nrow = 1, ncol = 2)
+bloodmoney_centaure_plot <- marrangeGrob(list(bloodmoney_plot, centaure_plot), nrow = 1, ncol = 2, top = "")
 
-ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, height = 7, top = "")
+ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, height = 7)
 
 
 # ### ILE MYSTERIEUSE
@@ -195,6 +210,16 @@ ggsave("viz/bloodmoney_centaure.png", bloodmoney_centaure_plot, width = 16, heig
 # ile_mysterieuse_plot <- draw(g_3_connected[[ile_mysterieuse]])
 # 
 # ggsave("viz/ile_mysterieuse.png", ile_mysterieuse_plot, width = 10, height = 7)
+
+
+### Begum
+
+begum <- which(str_detect(titles, "500millions_Begum"))
+begum_plot <- draw(g_3_connected[[begum]])
+
+ggsave("viz/begum.png", begum_plot, width = 10, height = 7)
+
+
 
 
 ### COMPAGNIE DES GLACES
