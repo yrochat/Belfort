@@ -387,7 +387,21 @@ ggsave("viz/Image16.png", fahrenheit_451_plot, width = 10, height = 7)
 ### 1984
 
 eighty_four <- which(str_detect(titles, "1949.1984"))
-eighty_four_plot <- draw2(g_3_connected[[eighty_four]])
+eighty_four_plot <- ggraph(g_3_connected[[eighty_four]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[eighty_four]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
 
 ggsave("viz/Image17.png", eighty_four_plot, width = 10, height = 7)
 
@@ -417,7 +431,21 @@ ggsave("viz/Image18.png", equilibrium_plot, width = 10, height = 7)
 ### GATTACA
 
 gattaca <- which(str_detect(titles, "Bienvenue_a_Gattaca"))
-gattaca_plot <- draw2(g_3_connected[[gattaca]])
+gattaca_plot <- ggraph(g_3_connected[[gattaca]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[gattaca]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
 
 ggsave("viz/Image19.png", gattaca_plot, width = 10, height = 7)
 
@@ -425,7 +453,21 @@ ggsave("viz/Image19.png", gattaca_plot, width = 10, height = 7)
 ### STALKER
 
 stalker <- which(str_detect(titles, "Stalker"))
-stalker_plot <- draw2(g_3_connected[[stalker]])
+stalker_plot <- ggraph(g_3_connected[[stalker]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[stalker]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
 
 ggsave("viz/Image20.png", stalker_plot, width = 10, height = 7)
 
@@ -433,17 +475,45 @@ ggsave("viz/Image20.png", stalker_plot, width = 10, height = 7)
 ### NEUROMANCIEN
 
 neuromancien <- which(str_detect(titles, "Neuromancien"))
-neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
+neuromancien_plot <- ggraph(g_3_connected[[neuromancien]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[neuromancien]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
 
 ggsave("viz/Image21.png", neuromancien_plot, width = 10, height = 7)
 
 
 ### FINAL FANTASY VII
 
-neuromancien <- which(str_detect(titles, "Neuromancien"))
-neuromancien_plot <- draw2(g_3_connected[[neuromancien]])
+final_fantasy_vii <- which(str_detect(titles, "FF7"))
+final_fantasy_vii_plot <- ggraph(g_3_connected[[final_fantasy_vii]]) +
+  geom_edge_link(aes(width = weight)) +
+  geom_node_point(aes(size = degree(g_3_connected[[final_fantasy_vii]]), color = id1)) +
+  scale_edge_width_continuous(range = c(.1, 2), "Poids") +
+  geom_node_label(
+    aes(label = name),
+    size = 2,
+    repel = TRUE,
+    label.size = .1,
+    family = "Helvetica",
+    alpha = .8,
+    segment.colour = "pink"
+  ) +
+  scale_size_area(max_size = 5, "Degré") + 
+  scale_color_brewer(palette = "Set1", "Type")
 
-ggsave("viz/Image21.png", neuromancien_plot, width = 10, height = 7)
+ggsave("viz/Image22.png", final_fantasy_vii_plot, width = 10, height = 7)
 
 
 ###########
