@@ -16,7 +16,7 @@ Famille de Jeniya,Technique
 Voisins de Jeniya,Technique
 Liokha (ami de Jeniya),Technique
 Commandant de l'expédition,Technique
-Nikita Vassilievitch (l'homme qui ferme la marche),Technique
+Nikita Vassilievitch,Technique
 Bourbon,Technique
 Khan,Mystique
 Groupe de voyage intimidé,Mystique
@@ -26,7 +26,7 @@ Gardes entrée Kitaï-Gorod,Technique
 Habitants Kitaï-Gorod,Technique
 Musiciens Kitaï-Gorod,Technique
 Membre gang Kitaï-Gorod,Technique
-Attaquant mistérieux Kitaï-Gorod,Technique
+Attaquant mystérieux Kitaï-Gorod,Technique
 Mikhaïl Porfirievitch,Politique
 Vanya,Indéfini
 Hitler,Politique
@@ -37,9 +37,9 @@ Habitants Kouznetski Most,Technique
 Cercle intellectuel de Barrikadnaya,Politique
 Conseil de Polis,Politique
 Enfants sans visage,Abomination
-Prisonnier des néonazis,Technique
-Bourreau néonazi,Technique
-"Sauveteur, camarades soviétiques",Technique
+Prisonnier des Néonazis,Technique
+Bourreau Néonazis,Technique
+"Sauveteur, Camarades Soviétiques",Technique
 Che Guevara,Politique
 Habitants de Paveletskaya,Technique
 Factionnaires de Paveletskaya,Technique
@@ -57,7 +57,7 @@ Livre,Science
 Danilla,Science
 Bibliothécaire,Abomination
 Hôte,Politique
-Militaires (polis),Technique
+Militaires (Polis),Technique
 Garde âgé,Technique
 Décyaty,Technique
 Créature ailée,Abomination
@@ -71,20 +71,20 @@ Anton,Technique
 Femme d'Anton,Technique
 Deux femmes ,Indéfini
 Oleg,Indéfini
-Cannibale mutant,Mystique
+Cannibales mutants,Mystique
 Hiérophante,Mystique
 Grand Ver,Mystique
 Ohlman,Technique
 Arme biologique,Abomination
 Serguei,Technique
 Mikhail,Technique
-Eminente autorité (machiniste),Technique
+Éminente autorité (machiniste),Technique
 Employés du métro,Technique
-Marchands ambulants/colporteurs,Technique
+Marchands ambulants,Technique
 Commerçants de la Hanse,Technique
 Carlos (mage de la Soukharevskaya),Mystique
-Zyrba/Zarbi (vieux mage),Mystique
-Alexandre Nicolaïevitch (chef VDNKh),Politique
+Zyrba (vieux mage),Mystique
+Alexandre Nicolaïevitch (chef VDNKH),Politique
 Tolyan (ami de Bourbon),Technique
 Habitants de la Polejaïevskaya,Technique
 Habitants de la Begovaya,Technique
@@ -94,4 +94,4 @@ Habitants de l'Alexeïevskaya,Technique
 Habitants de la Rijskaya,Technique
 La Hanse,Politique
 Les Rouges,Politique
-Les néonazis 2,Politique
+Les néonazis,Politique
